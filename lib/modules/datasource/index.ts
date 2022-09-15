@@ -209,9 +209,11 @@ function resolveRegistryUrls(
         'Custom registries are not allowed for this datasource and will be ignored'
       );
     }
-    return is.function_(datasource.defaultRegistryUrls)
-      ? datasource.defaultRegistryUrls()
-      : datasource.defaultRegistryUrls ?? [];
+    return massageRegistryUrls(
+      is.function_(datasource.defaultRegistryUrls)
+        ? datasource.defaultRegistryUrls()
+        : datasource.defaultRegistryUrls ?? []
+    );
   }
   const customUrls = registryUrls?.filter(Boolean);
   let resolvedUrls: string[] = [];

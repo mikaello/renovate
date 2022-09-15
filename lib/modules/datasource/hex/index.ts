@@ -41,7 +41,7 @@ export class HexDatasource extends Datasource {
     const organizationUrlPrefix = organizationName
       ? `repos/${organizationName}/`
       : '';
-    const hexUrl = `${registryUrl}api/${organizationUrlPrefix}packages/${hexPackageName}`;
+    const hexUrl = `${registryUrl}/api/${organizationUrlPrefix}packages/${hexPackageName}`;
 
     let response: HttpResponse<HexRelease>;
     try {

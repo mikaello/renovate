@@ -35,7 +35,7 @@ export class CondaDatasource extends Datasource {
 
     // TODO: types (#7154)
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const url = `${registryUrl}${packageName}`;
+    const url = `${registryUrl}/${packageName}`;
 
     const result: ReleaseResult = {
       releases: [],

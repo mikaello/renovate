@@ -31,9 +31,9 @@ export class GalaxyDatasource extends Datasource {
 
     // TODO: types (#7154)
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const galaxyAPIUrl = `${registryUrl}api/v1/roles/?owner__username=${userName}&name=${projectName}`;
+    const galaxyAPIUrl = `${registryUrl}/api/v1/roles/?owner__username=${userName}&name=${projectName}`;
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const galaxyProjectUrl = `${registryUrl}${userName}/${projectName}`;
+    const galaxyProjectUrl = `${registryUrl}/${userName}/${projectName}`;
 
     let raw: HttpResponse<GalaxyResult> | null = null;
     try {

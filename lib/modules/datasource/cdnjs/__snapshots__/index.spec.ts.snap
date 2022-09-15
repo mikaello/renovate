@@ -3,7 +3,7 @@
 exports[`modules/datasource/cdnjs/index getReleases filters releases by asset presence 1`] = `
 {
   "homepage": "http://bulma.io",
-  "registryUrl": "https://api.cdnjs.com/",
+  "registryUrl": "https://api.cdnjs.com",
   "releases": [
     {
       "version": "0.7.5",
@@ -16,7 +16,7 @@ exports[`modules/datasource/cdnjs/index getReleases filters releases by asset pr
 exports[`modules/datasource/cdnjs/index getReleases processes real data 1`] = `
 {
   "homepage": "https://d3js.org/d3-force/",
-  "registryUrl": "https://api.cdnjs.com/",
+  "registryUrl": "https://api.cdnjs.com",
   "releases": [
     {
       "newDigest": "sha256-DNKhvPNPQByxMloPGL2GfmxYsbWDcrznYp+/r4eXs+o=",

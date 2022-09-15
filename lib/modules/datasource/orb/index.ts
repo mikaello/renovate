@@ -40,7 +40,7 @@ export class OrbDatasource extends Datasource {
     if (!registryUrl) {
       return null;
     }
-    const url = `${registryUrl}graphql-unstable`;
+    const url = `${registryUrl}/graphql-unstable`;
     const body = {
       query,
       variables: { packageName },

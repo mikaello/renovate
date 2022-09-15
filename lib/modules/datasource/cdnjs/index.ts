@@ -26,7 +26,7 @@ export class CdnJsDatasource extends Datasource {
     const library = packageName.split('/')[0];
     // TODO: types (#7154)
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const url = `${registryUrl}libraries/${library}?fields=homepage,repository,assets`;
+    const url = `${registryUrl}/libraries/${library}?fields=homepage,repository,assets`;
     let result: ReleaseResult | null = null;
     try {
       const { assets, homepage, repository } = (

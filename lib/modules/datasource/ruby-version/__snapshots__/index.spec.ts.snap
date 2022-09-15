@@ -3,7 +3,7 @@
 exports[`modules/datasource/ruby-version/index getReleases parses real data 1`] = `
 {
   "homepage": "https://www.ruby-lang.org",
-  "registryUrl": "https://www.ruby-lang.org/",
+  "registryUrl": "https://www.ruby-lang.org",
   "releases": [
     {
       "changelogUrl": "https://www.ruby-lang.org/en/news/2002/03/01/167-is-released/",
