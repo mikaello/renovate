@@ -27,7 +27,7 @@ export class GolangVersionDatasource extends Datasource {
     'https://raw.githubusercontent.com/golang/website/',
   ];
 
-  override readonly customRegistrySupport = false;
+  override readonly customRegistrySupport = true;
 
   override readonly defaultVersioning = semverVersioningId;
 
