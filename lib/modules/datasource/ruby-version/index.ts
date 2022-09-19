@@ -2,6 +2,7 @@ import { ExternalHostError } from '../../../types/errors/external-host-error';
 import { cache } from '../../../util/cache/package/decorator';
 import { parse } from '../../../util/html';
 import type { HttpError } from '../../../util/http';
+import { joinUrlParts } from '../../../util/url';
 import { isVersion, id as rubyVersioningId } from '../../versioning/ruby';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, ReleaseResult } from '../types';
@@ -23,14 +24,19 @@ export class RubyVersionDatasource extends Datasource {
   async getReleases({
     registryUrl,
   }: GetReleasesConfig): Promise<ReleaseResult | null> {
+    if (!registryUrl) {
+      return null;
+    }
+
     const res: ReleaseResult = {
       homepage: 'https://www.ruby-lang.org',
       sourceUrl: 'https://github.com/ruby/ruby',
       releases: [],
     };
-    // TODO: types (#7154)
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const rubyVersionsUrl = `${registryUrl}/en/downloads/releases/`;
+    const rubyVersionsUrl = joinUrlParts(
+      registryUrl,
+      '/en/downloads/releases/'
+    );
     try {
       const response = await this.http.get(rubyVersionsUrl);
 

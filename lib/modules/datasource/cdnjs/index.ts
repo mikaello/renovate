@@ -1,4 +1,5 @@
 import { ExternalHostError } from '../../../types/errors/external-host-error';
+import { joinUrlParts } from '../../../util/url';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, ReleaseResult } from '../types';
 import type { CdnjsResponse } from './types';
@@ -22,11 +23,16 @@ export class CdnJsDatasource extends Datasource {
     packageName,
     registryUrl,
   }: GetReleasesConfig): Promise<ReleaseResult | null> {
+    if (!registryUrl) {
+      return null;
+    }
+
     // Each library contains multiple assets, so we cache at the library level instead of per-asset
     const library = packageName.split('/')[0];
-    // TODO: types (#7154)
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const url = `${registryUrl}/libraries/${library}?fields=homepage,repository,assets`;
+    const url = joinUrlParts(
+      registryUrl,
+      `/libraries/${library}?fields=homepage,repository,assets`
+    );
     let result: ReleaseResult | null = null;
     try {
       const { assets, homepage, repository } = (

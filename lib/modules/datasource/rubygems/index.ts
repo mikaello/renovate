@@ -1,5 +1,5 @@
 import { cache } from '../../../util/cache/package/decorator';
-import { parseUrl } from '../../../util/url';
+import { joinUrlParts, parseUrl } from '../../../util/url';
 import * as rubyVersioning from '../../versioning/ruby';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, ReleaseResult } from '../types';
@@ -32,9 +32,7 @@ export class RubyGemsDatasource extends Datasource {
   @cache({
     namespace: `datasource-${RubyGemsDatasource.id}`,
     key: ({ registryUrl, packageName }: GetReleasesConfig) =>
-      // TODO: types (#7154)
-      /* eslint-disable @typescript-eslint/restrict-template-expressions */
-      `${registryUrl}/${packageName}`,
+      joinUrlParts(registryUrl ?? '', `/${packageName}`),
   })
   getReleases({
     packageName,

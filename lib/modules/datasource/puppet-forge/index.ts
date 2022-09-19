@@ -1,3 +1,4 @@
+import { joinUrlParts } from '../../../util/url';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, Release, ReleaseResult } from '../types';
 import { PUPPET_FORGE } from './common';
@@ -16,11 +17,16 @@ export class PuppetForgeDatasource extends Datasource {
     packageName,
     registryUrl,
   }: GetReleasesConfig): Promise<ReleaseResult | null> {
+    if (!registryUrl) {
+      return null;
+    }
+
     // https://forgeapi.puppet.com
     const moduleSlug = packageName.replace('/', '-');
-    // TODO: types (#7154)
-    /* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */
-    const url = `${registryUrl}/v3/modules/${moduleSlug}?exclude_fields=current_release`;
+    const url = joinUrlParts(
+      registryUrl,
+      `/v3/modules/${moduleSlug}?exclude_fields=current_release`
+    );
 
     let module: PuppetModule;
 

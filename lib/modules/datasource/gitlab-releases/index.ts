@@ -1,5 +1,6 @@
 import { cache } from '../../../util/cache/package/decorator';
 import { GitlabHttp } from '../../../util/http/gitlab';
+import { joinUrlParts } from '../../../util/url';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, Release, ReleaseResult } from '../types';
 import type { GitlabRelease } from './types';
@@ -19,9 +20,7 @@ export class GitlabReleasesDatasource extends Datasource {
   @cache({
     namespace: `datasource-${GitlabReleasesDatasource.id}`,
     key: ({ registryUrl, packageName }: GetReleasesConfig) =>
-      // TODO: types (#7154)
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      `${registryUrl}/${packageName}`,
+      joinUrlParts(registryUrl ?? '', `/${packageName}`),
   })
   async getReleases({
     registryUrl,
@@ -33,7 +32,10 @@ export class GitlabReleasesDatasource extends Datasource {
     }
 
     const urlEncodedRepo = encodeURIComponent(packageName);
-    const apiUrl = `${registryUrl}/api/v4/projects/${urlEncodedRepo}/releases`;
+    const apiUrl = joinUrlParts(
+      registryUrl,
+      `/api/v4/projects/${urlEncodedRepo}/releases`
+    );
 
     try {
       const gitlabReleasesResponse = (
@@ -41,7 +43,7 @@ export class GitlabReleasesDatasource extends Datasource {
       ).body;
 
       return {
-        sourceUrl: `${registryUrl}/${packageName}`,
+        sourceUrl: joinUrlParts(registryUrl, `/${packageName}`),
         releases: gitlabReleasesResponse.map(({ tag_name, released_at }) => {
           const release: Release = {
             registryUrl,

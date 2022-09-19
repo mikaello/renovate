@@ -3,6 +3,7 @@ import { logger } from '../../../logger';
 import { cache } from '../../../util/cache/package/decorator';
 import type { HttpResponse } from '../../../util/http/types';
 import * as p from '../../../util/promises';
+import { joinUrlParts } from '../../../util/url';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, Release, ReleaseResult } from '../types';
 import type {
@@ -30,11 +31,16 @@ export class GalaxyCollectionDatasource extends Datasource {
     packageName,
     registryUrl,
   }: GetReleasesConfig): Promise<ReleaseResult | null> {
+    if (!registryUrl) {
+      return null;
+    }
+
     const [namespace, projectName] = packageName.split('.');
 
-    // TODO: types (#7154)
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const baseUrl = `${registryUrl}/api/v2/collections/${namespace}/${projectName}/`;
+    const baseUrl = joinUrlParts(
+      registryUrl,
+      `/api/v2/collections/${namespace}/${projectName}/`
+    );
 
     let baseUrlResponse: HttpResponse<BaseProjectResult>;
     try {

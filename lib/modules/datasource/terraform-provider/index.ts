@@ -6,6 +6,7 @@ import { ExternalHostError } from '../../../types/errors/external-host-error';
 import { cache } from '../../../util/cache/package/decorator';
 import * as p from '../../../util/promises';
 import { regEx } from '../../../util/regex';
+import { joinUrlParts } from '../../../util/url';
 import * as hashicorpVersioning from '../../versioning/hashicorp';
 import { TerraformDatasource } from '../terraform-module/base';
 import type { ServiceDiscoveryResult } from '../terraform-module/types';
@@ -115,7 +116,7 @@ export class TerraformProviderDatasource extends TerraformDatasource {
     if (latestVersion) {
       latestVersion.releaseTimestamp = res.published_at;
     }
-    dep.homepage = `${registryUrl}/providers/${repository}`;
+    dep.homepage = joinUrlParts(registryUrl, `/providers/${repository}`);
     return dep;
   }
 
@@ -166,7 +167,7 @@ export class TerraformProviderDatasource extends TerraformDatasource {
   @cache({
     namespace: `datasource-${TerraformProviderDatasource.id}-builds`,
     key: (registryURL: string, repository: string, version: string) =>
-      `${registryURL}/${repository}/${version}`,
+      joinUrlParts(registryURL, `/${repository}/${version}`),
   })
   async getBuilds(
     registryURL: string,

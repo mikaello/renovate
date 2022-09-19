@@ -6,6 +6,7 @@ import { cache } from '../../../util/cache/package/decorator';
 import type { HttpError } from '../../../util/http';
 import { GithubHttp } from '../../../util/http/github';
 import { newlineRegex, regEx } from '../../../util/regex';
+import { joinUrlParts } from '../../../util/url';
 import { Datasource } from '../datasource';
 import { massageGithubUrl } from '../metadata';
 import type { GetReleasesConfig, ReleaseResult } from '../types';
@@ -90,7 +91,7 @@ function isDefaultRepo(url: string): boolean {
 
 function releasesCDNUrl(packageName: string, registryUrl: string): string {
   const shard = shardParts(packageName).join('_');
-  return `${registryUrl}/all_pods_versions_${shard}.txt`;
+  return joinUrlParts(registryUrl, `/all_pods_versions_${shard}.txt`);
 }
 
 export class PodDatasource extends Datasource {

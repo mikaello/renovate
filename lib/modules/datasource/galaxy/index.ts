@@ -1,6 +1,7 @@
 import { logger } from '../../../logger';
 import { cache } from '../../../util/cache/package/decorator';
 import type { HttpResponse } from '../../../util/http/types';
+import { joinUrlParts } from '../../../util/url';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, Release, ReleaseResult } from '../types';
 import type { GalaxyResult } from './types';
@@ -25,15 +26,22 @@ export class GalaxyDatasource extends Datasource {
     packageName,
     registryUrl,
   }: GetReleasesConfig): Promise<ReleaseResult | null> {
+    if (!registryUrl) {
+      return null;
+    }
+
     const lookUp = packageName.split('.');
     const userName = lookUp[0];
     const projectName = lookUp[1];
 
-    // TODO: types (#7154)
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const galaxyAPIUrl = `${registryUrl}/api/v1/roles/?owner__username=${userName}&name=${projectName}`;
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const galaxyProjectUrl = `${registryUrl}/${userName}/${projectName}`;
+    const galaxyAPIUrl = joinUrlParts(
+      registryUrl,
+      `/api/v1/roles/?owner__username=${userName}&name=${projectName}`
+    );
+    const galaxyProjectUrl = joinUrlParts(
+      registryUrl,
+      `/${userName}/${projectName}`
+    );
 
     let raw: HttpResponse<GalaxyResult> | null = null;
     try {

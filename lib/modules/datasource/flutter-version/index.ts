@@ -1,4 +1,5 @@
 import { regEx } from '../../../util/regex';
+import { joinUrlParts } from '../../../util/url';
 import { Datasource } from '../datasource';
 import type { GetReleasesConfig, ReleaseResult } from '../types';
 import type { FlutterResponse } from './types';
@@ -34,7 +35,10 @@ export class FlutterVersionDatasource extends Datasource {
     try {
       const resp = (
         await this.http.getJson<FlutterResponse>(
-          `${registryUrl}/flutter_infra_release/releases/releases_linux.json`
+          joinUrlParts(
+            registryUrl,
+            '/flutter_infra_release/releases/releases_linux.json'
+          )
         )
       ).body;
       result.releases = resp.releases
