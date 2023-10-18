@@ -18,6 +18,14 @@ export const presets: Record<string, Preset> = {
     ],
     description: 'Update `_VERSION` variables in Dockerfiles.',
   },
+  genericVersions: {
+    customManagers: 'regex',
+    fileMatch: ['.*'],
+    matchStrings: [
+        "renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>\\S+?)(?: packageName=(?<packageName>\\S+?))?(?: versioning=(?<versioning>\\S+?))?(?: registryUrl=(?<registryUrl>\\S+?))?\\n.*(?:VERSION|version|TAG|tag)\\s*[?]?[=:]\\s*\"?(?<currentValue>[^\"\\s]+)\"?"
+    ],
+    versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}'
+  },
   githubActionsVersions: {
     customManagers: [
       {
@@ -84,5 +92,5 @@ export const presets: Record<string, Preset> = {
       },
     ],
     description: 'Update `*_version` variables in `.tfvars` files.',
-  },
+  }
 };
