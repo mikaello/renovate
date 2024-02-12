@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import {
   filterConfig,
   getManagerConfig,
@@ -35,6 +36,13 @@ export function applyUpdateConfig(input: BranchUpgradeConfig): any {
     : undefined;
   updateConfig.newNameSanitized = updateConfig.newName
     ? sanitizeDepName(updateConfig.newName)
+    : undefined;
+  updateConfig.depNameHash = updateConfig.depName
+    ? crypto
+        .createHash('md5')
+        .update(updateConfig.depName)
+        .digest('hex')
+        .slice(0, 4)
     : undefined;
   if (updateConfig.sourceUrl) {
     const parsedSourceUrl = parseUrl(updateConfig.sourceUrl);

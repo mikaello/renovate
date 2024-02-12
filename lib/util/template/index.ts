@@ -87,6 +87,8 @@ export const allowedFields = {
     'The dependency name already linked to its home page using markdown',
   depNameSanitized:
     'The depName field sanitized for use in branches after removing spaces and special characters',
+  depNameHash:
+    'The depName hashed to a 5 character long string for use in branches',
   depType: 'The dependency type (if extracted - manager-dependent)',
   displayFrom: 'The current value, formatted for display',
   displayPending: 'Latest pending update, if internalChecksFilter is in use',
